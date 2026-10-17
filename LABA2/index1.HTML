@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW | Премиальные модели</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0d;
+            --card-bg: #141418;
+            --accent-color: #0066b2;
+            --text-color: #f0f0f3;
+            --text-muted: #9ba1a6;
+            --border-color: #2a2a33;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Навигация (nav) */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+        }
+
+        nav a:hover {
+            color: #fff;
+            border-color: var(--accent-color);
+            background: rgba(0, 102, 178, 0.1);
+        }
+
+        /* Секция автомобиля (section) */
+        .car-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .car-section h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .car-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .car-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Изображение с подписью (figure, figcaption) */
+        figure {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        figure img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        figcaption {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Таблица характеристик (table, tr, th, td, col) */
+        .specs-table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        /* Использование тега col для управления колонками таблицы */
+        col.col-param { width: 50%; }
+        col.col-value { width: 50%; }
+
+        th, td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(255,255,255,0.03);
+            color: #fff;
+        }
+
+        td {
+            color: var(--text-muted);
+        }
+
+        td:last-child {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* Дополнительные факты (aside) */
+        aside {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: rgba(0, 102, 178, 0.05);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        aside h4 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        /* Раскрывающиеся списки (details, summary) */
+        details {
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #fff;
+            outline: none;
+        }
+
+        details p {
+            margin-top: 10px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Прогресс-бар для безопасности (progress) */
+        .safety-rating {
+            margin-top: 15px;
+        }
+
+        .safety-rating label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+        }
+
+        progress {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            appearance: none;
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: var(--border-color);
+        }
+
+        progress::-webkit-progress-value {
+            background-color: var(--accent-color);
+        }
+
+        /* Цитаты (blockquote) */
+        blockquote {
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-style: italic;
+            border-left: 2px solid var(--text-muted);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.01);
+        }
+
+        /* Дата (time) */
+        .release-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        /* Мини-таблички / блоки (div) */
+        .mini-specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .mini-spec-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .mini-spec-card span {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .mini-spec-card strong {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BMW LUXURY & PERFORMANCE</h1>
+        <p>BMW. Совершенство в движении</p>
+        
+        <!-- Использование тега <nav> для навигационных ссылок -->
+        <nav>
+            <a href="#m4">BMW M4 Competition</a>
+            <a href="#i7">BMW i7 Sedan</a>
+            <a href="#x5">BMW X5 xDrive</a>
+            <a href="#comparison">Сравнение моделей</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Модель 1: BMW M4 Competition -->
+        <section id="m4" class="car-section">
+            <h2>BMW M4 Competition Coupé</h2>
+            <div class="car-content">
+                <div>
+                    <!-- Использование тега <figure> и <figcaption> (внешний вид) -->
+                    <figure>
+                        <img src="Gemini_Generated_Image_n1pykfn1pykfn1py.jpg" alt="BMW M4 Competition экстерьер">
+                        <figcaption>Спортивное купе высочайшей производительности</figcaption>
+                    </figure>
+
+                    <!-- Дополнительная картинка салона -->
+                    <figure>
+                        <img src="g82_comp-coupe_int_dashboard_fb.webp" alt="BMW M4 Competition салон">
+                        <figcaption>Спортивный салон с карбоновыми акцентами и ковшами</figcaption>
+                    </figure>
+
+                    <!-- Использование тега <aside> для интересных фактов -->
+                    <aside>
+                        <h4>Интересный факт</h4>
+                        <p>Индекс G82 оснащается культовым рядным 6-цилиндровым двигателем S58, который выдает невероятный потенциал для тюнинга и трековых заездов.</p>
+                    </aside>
+
+                    <!-- Использование тега <time> -->
+                    <p class="release-date">Год выхода актуального поколения: <time datetime="2024">2024</time></p>
+                </div>
+
+                <div>
+                    <!-- Использование тегов <table>, <tr>, <th>, <td>, <col> -->
+                    <div class="specs-table-container">
+                        <table>
+                            <colgroup>
+                                <col class="col-param">
+                                <col class="col-value">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Характеристика</th>
+                                    <th>Параметр модели</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Тип двигателя</td><td>Бензиновый (TwinPower Turbo)</td></tr>
+                                <tr><td>Расход топлива</td><td>9.8 л / 100 км (смешанный)</td></tr>
+                                <tr><td>Коробка передач</td><td>Автоматическая (M Steptronic)</td></tr>
+                                <tr><td>Количество передач</td><td>8 ступеней</td></tr>
+                                <tr><td>Габариты (Д × Ш × В)</td><td>4794 × 1887 × 1393 мм</td></tr>
+                                <tr><td>Объем багажника</td><td>440 литров</td></tr>
+                                <tr><td>Безопасность</td><td>ABS, ESP, 6 подушек безопасности, Active Protection</td></tr>
+                                <tr><td>Рейтинг краш-тестов</td><td>Euro NCAP: 5 звезд (базовая серия 3/4)</td></tr>
+                                <tr><td>Разгон до 100 км/ч</td><td>3.5 секунды</td></tr>
+                                <tr><td>Максимальная скорость</td><td>250 км/ч (ограничена электроникой)</td></tr>
+                                <tr><td>Начальная цена</td><td>от €85,000</td></tr>
+                                <tr><td>Wi-Fi / Bluetooth</td><td>Встроено (Apple CarPlay / Android Auto)</td></tr>
+                                <tr><td>Тормозная система</td><td>Дисковые вентилируемые (опция: M Carbon-ceramic)</td></tr>
+                                <tr><td>Предотвращение столкновений</td><td>Система Driving Assistant Professional</td></tr>
+                                <tr><td>Гарантийный срок</td><td>3 года или 200 000 км</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Использование тега <progress> для отображения безопасности -->
+                    <div class="safety-rating">
+                        <label>Уровень безопасности и систем помощи водителю:</label>
+                        <progress value="92" max="100">92%</progress>
+                    </div>
+
+                    <!-- Использование тегов <details> и <summary> -->
+                    <details>
+                        <summary>Пакет трековых опций (M Race Track)</summary>
+                        <p>Включает ковшеобразные карбоновые кресла, облегченные кованые диски и керамические тормоза, снижающие неподрессоренные массы на 25 кг.</p>
+                    </details>
+
+                    <!-- Использование тега <blockquote> для отзыва -->
+                    <blockquote>
+                        «Эта машина стирает грань между трековым болидом и автомобилем на каждый день». — Автомобильное издание Top Gear.
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Модель 2: BMW i7 -->
+        <section id="i7" class="car-section">
+            <h2>BMW i7 xDrive60 (Электро)</h2>
+            <div class="car-content">
+                <div>
+                    <figure>
+                        <img src="Gemini_Generated_Image_jm2b26jm2b26jm2b.jpg" alt="BMW i7 экстерьер">
+                        <figcaption>Флагманский электрический лимузин представительского класса</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img src="394A6920-scaled.jpeg" alt="BMW i7 салон">
+                        <figcaption>Роскошный салон с панорамным экраном Theater Screen для задних пассажиров</figcaption>
+                    </figure>
+
+                    <aside>
+                        <h4>Интересный факт</h4>
+                        <p>Задний ряд сидений оснащается опциональным панорамным кинотеатром Theater Screen с диагональю 31 дюйм в разрешении 8K.</p>
+                    </aside>
+
+                    <p class="release-date">Год премьеры: <time datetime="2023">2023</time></p>
+                </div>
+
+                <div>
+                    <div class="specs-table-container">
+                        <table>
+                            <colgroup>
+                                <col class="col-param">
+                                <col class="col-value">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Характеристика</th>
+                                    <th>Параметр модели</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Тип двигателя</td><td>Электрический (двойной мотор, AWD)</td></tr>
+                                <tr><td>Расход топлива</td><td>Энергопотребление: 18.4 кВт·ч / 100 км</td></tr>
+                                <tr><td>Коробка передач</td><td>Автоматическая (редуктор)</td></tr>
+                                <tr><td>Количество передач</td><td>1 (на каждый мотор)</td></tr>
+                                <tr><td>Габариты (Д × Ш × В)</td><td>5391 × 1950 × 1544 мм</td></tr>
+                                <tr><td>Объем багажника</td><td>500 литров</td></tr>
+                                <tr><td>Безопасность</td><td>ABS, ESP, система удержания в полосе, панорамные подушки</td></tr>
+                                <tr><td>Рейтинг краш-тестов</td><td>Euro NCAP: 5 звезд</td></tr>
+                                <tr><td>Разгон до 100 км/ч</td><td>4.7 секунды</td></tr>
+                                <tr><td>Максимальная скорость</td><td>240 км/ч</td></tr>
+                                <tr><td>Начальная цена</td><td>от €140,100</td></tr>
+                                <tr><td>Wi-Fi / Bluetooth</td><td>5G eSIM, Wi-Fi Hotspot, Bluetooth 5.2</td></tr>
+                                <tr><td>Тормозная система</td><td>Дисковые с рекуперацией энергии</td></tr>
+                                <tr><td>Предотвращение столкновений</td><td>Ассистент автономного вождения Level 3</td></tr>
+                                <tr><td>Гарантийный срок</td><td>4 года (батарея: 8 лет или 160 000 км)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="safety-rating">
+                        <label>Уровень автономности и безопасности:</label>
+                        <progress value="98" max="100">98%</progress>
+                    </div>
+
+                    <details>
+                        <summary>Инновации салона (BMW Interaction Bar)</summary>
+                        <p>Интерактивная подсветка салона, проходящая по всей передней панели, заменяет традиционные физические клавиши и управляет климатом.</p>
+                    </details>
+
+                    <blockquote>
+                        «Новый стандарт абсолютной тишины и роскоши на колесах». — Журнал MotorTrend.
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Модель 3: BMW X5 xDrive30d -->
+        <section id="x5" class="car-section">
+            <h2>BMW X5 xDrive30d</h2>
+            <div class="car-content">
+                <div>
+                    <figure>
+                        <img src="Gemini_Generated_Image_ul50ogul50ogul50.jpg" alt="BMW X5 экстерьер">
+                        <figcaption>Премиальный полноприводный спортивный кроссовер (SAV)</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img src="salon.jpg" alt="BMW X5 салон">
+                        <figcaption>Эргономичный интерьер с изогнутым дисплеем BMW Curved Display</figcaption>
+                    </figure>
+
+                    <aside>
+                        <h4>Интересный факт</h4>
+                        <p>Модель X5 создала класс спортивных activity-автомобилей (SAV) в 1999 году и по сей день удерживает лидерство в классе.</p>
+                    </aside>
+
+                    <p class="release-date">Год рестайлинга поколения: <time datetime="2023">2023</time></p>
+                </div>
+
+                <div>
+                    <div class="specs-table-container">
+                        <table>
+                            <colgroup>
+                                <col class="col-param">
+                                <col class="col-value">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Характеристика</th>
+                                    <th>Параметр модели</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Тип двигателя</td><td>Дизельный (Mild Hybrid, турбо)</td></tr>
+                                <tr><td>Расход топлива</td><td>7.1 л / 100 км (смешанный)</td></tr>
+                                <tr><td>Коробка передач</td><td>Автоматическая (Steptronic)</td></tr>
+                                <tr><td>Количество передач</td><td>8 ступеней</td></tr>
+                                <tr><td>Габариты (Д × Ш × В)</td><td>4935 × 2004 × 1765 мм</td></tr>
+                                <tr><td>Объем багажника</td><td>650 – 1870 литров</td></tr>
+                                <tr><td>Безопасность</td><td>ABS, DSC, CBC, полный комплект подушек и шторок</td></tr>
+                                <tr><td>Рейтинг краш-тестов</td><td>Euro NCAP: 5 звезд</td></tr>
+                                <tr><td>Разгон до 100 км/ч</td><td>6.1 секунды</td></tr>
+                                <tr><td>Максимальная скорость</td><td>235 км/ч</td></tr>
+                                <tr><td>Начальная цена</td><td>от €78,500</td></tr>
+                                <tr><td>Wi-Fi / Bluetooth</td><td>BMW Live Cockpit Professional, Wi-Fi</td></tr>
+                                <tr><td>Тормозная система</td><td>Дисковые вентилируемые по кругу</td></tr>
+                                <tr><td>Предотвращение столкновений</td><td>Active Guard Plus (автоторможение)</td></tr>
+                                <tr><td>Гарантийный срок</td><td>3 года без ограничения пробега</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mini-specs-grid">
+                        <div class="mini-spec-card">
+                            <span>Мощность</span>
+                            <strong>286 л.с.</strong>
+                        </div>
+                        <div class="mini-spec-card">
+                            <span>Крутящий момент</span>
+                            <strong>650 Нм</strong>
+                        </div>
+                    </div>
+
+                    <details>
+                        <summary>Особенности подвески</summary>
+                        <p>Опциональная двухосная пневмоподвеска позволяет изменять дорожный просвет в диапазоне до 80 мм для бездорожья или погрузки.</p>
+                    </details>
+
+                    <blockquote>
+                        «Идеальный баланс динамики легкового седана и практичности внедорожника». — Авторевю.
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция сравнения всех моделей -->
+        <section id="comparison" class="car-section">
+            <h2>Сравнение моделей BMW</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Сводная таблица ключевых технических характеристик и параметров представленных автомобилей.</p>
+            <div class="specs-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>BMW M4 Competition</th>
+                            <th>BMW i7 xDrive60</th>
+                            <th>BMW X5 xDrive30d</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Тип кузова</strong></td>
+                            <td>Спортивное купе</td>
+                            <td>Представительский седан</td>
+                            <td>Спортивный кроссовер (SAV)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Тип двигателя</strong></td>
+                            <td>Бензиновый (TwinPower Turbo)</td>
+                            <td>Электрический (AWD)</td>
+                            <td>Дизельный (Mild Hybrid)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Разгон 0–100 км/ч</strong></td>
+                            <td>3.5 сек</td>
+                            <td>4.7 сек</td>
+                            <td>6.1 сек</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Максимальная скорость</strong></td>
+                            <td>250 км/ч</td>
+                            <td>240 км/ч</td>
+                            <td>235 км/ч</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Объем багажника</strong></td>
+                            <td>440 л</td>
+                            <td>500 л</td>
+                            <td>650 – 1870 л</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Габариты (Д×Ш×В)</strong></td>
+                            <td>4794 × 1887 × 1393 мм</td>
+                            <td>5391 × 1950 × 1544 мм</td>
+                            <td>4935 × 2004 × 1765 мм</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Начальная цена</strong></td>
+                            <td>от €85,000</td>
+                            <td>от €140,100</td>
+                            <td>от €78,500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BMW Project. Выполнено Петролай Анастасией.</p>
+    </footer>
+
+</body>
+</html>
